@@ -16,10 +16,14 @@ Live site: https://tongmiaoxu.github.io/sim2real-rollout-videos/
 
 ## Baselines
 
-- **Raw Render** — raw MuJoCo render, no Gaussian Splatting background, no sim2real translation.
-- **Kaifeng** — Gaussian-Splatting composite with classical color calibration (`--color-calibrate`).
-- **Pix2Pix** — Gaussian-Splatting composite translated with a per-task/camera pix2pix GAN.
-- **Turbo** — raw render translated with a per-task/camera pix2pix-turbo diffusion model.
+- **Raw Sim** — default Gaussian-Splatting composite (GS background + MuJoCo robot
+  foreground), no sim2real translation applied. This is what the policy would see if you
+  ran sim eval with no `--color-calibrate`/`--pix2pix`/`--turbo` flag at all.
+- **Kaifeng** — the same GS composite with classical color calibration (`--color-calibrate`).
+- **Pix2Pix** — the same GS composite translated with a per-task/camera pix2pix GAN.
+- **Turbo** — a *raw* MuJoCo render (no GS background) translated with a per-task/camera
+  pix2pix-turbo diffusion model (`--turbo_mujoco`); GS is skipped for this baseline because
+  the turbo checkpoints were trained to translate directly from the raw render.
 
 All videos show every simulation step. The pix2pix / turbo baselines re-run their
 translator on every frame of the underlying composite/raw video, rather than reusing the
