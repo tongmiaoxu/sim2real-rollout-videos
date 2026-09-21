@@ -3,9 +3,9 @@
 
   var TASKS = [
     { key: "book_shelving", label: "Book Shelving", episode: "episode_008", checkpoint: "ACT 20k" },
-    { key: "pick_shoe", label: "Pick Shoe", episode: "episode_002", checkpoint: "ACT 20k" },
+    { key: "pick_shoe", label: "Pick Shoe", episode: "episode_004", checkpoint: "pi0.5 1k" },
     { key: "place_mug", label: "Place Mug", episode: "episode_004", checkpoint: "ACT 20k" },
-    { key: "pouring", label: "Pouring", episode: "episode_005", checkpoint: "ACT 20k" },
+    { key: "pouring", label: "Pouring", episode: "episode_000", checkpoint: "Diffusion 8k" },
   ];
 
   var BASELINES = [
@@ -13,6 +13,7 @@
     { key: "kaifeng", label: "Kaifeng", sub: "color calibration" },
     { key: "pix2pix", label: "Pix2Pix", sub: "GAN translation" },
     { key: "turbo", label: "Turbo", sub: "pix2pix-turbo" },
+    { key: "real_world", label: "Real World", sub: "real robot eval" },
   ];
 
   var CAMERAS = [
@@ -113,11 +114,12 @@
     var task = TASKS.filter(function (t) { return t.key === currentTaskKey; })[0];
     taskSubEl.innerHTML =
       "<b>" + task.label + "</b> &mdash; " + task.checkpoint +
-      " checkpoint, " + task.episode + ". Every video shows the full per-step rollout " +
+      " checkpoint, " + task.episode + ". Sim baselines show the full per-step rollout " +
       "(sim2real translation re-applied to every simulation frame, not just once per " +
-      "policy-prediction chunk).";
+      "policy-prediction chunk); Real World is the actual robot eval with the same checkpoint.";
 
     gridEl.innerHTML = "";
+    gridEl.style.gridTemplateColumns = "120px repeat(" + BASELINES.length + ", minmax(220px, 1fr))";
 
     var corner = document.createElement("div");
     corner.className = "grid-corner";

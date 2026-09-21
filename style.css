@@ -88,9 +88,9 @@ main.content{
 }
 .video-grid{
   display:grid;
-  grid-template-columns: 120px repeat(4, minmax(220px, 1fr));
+  grid-template-columns: 120px repeat(5, minmax(220px, 1fr));
   gap:12px;
-  min-width:1040px;
+  min-width:1260px;
 }
 .grid-corner{}
 .col-head{

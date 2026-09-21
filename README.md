@@ -1,18 +1,21 @@
 # Sim2Real Rollout Video Gallery
 
-Full-episode ACT policy rollouts (20k checkpoint) rendered under 4 sim2real baselines,
-shown side by side for the stationary and wrist cameras.
+Full-episode policy rollouts rendered under 4 sim2real baselines plus a real-world eval
+recording, shown side by side for the stationary and wrist cameras.
 
 Live site: https://tongmiaoxu.github.io/sim2real-rollout-videos/
 
-## Tasks / episodes
+## Tasks / episodes / checkpoints
 
-| Task | Episode |
-| --- | --- |
-| Book Shelving | episode_008 |
-| Pick Shoe | episode_002 |
-| Place Mug | episode_004 |
-| Pouring | episode_005 |
+| Task | Policy / checkpoint | Sim episode |
+| --- | --- | --- |
+| Book Shelving | ACT 20k | episode_008 |
+| Pick Shoe | pi0.5 1k (batch 1) | episode_004 |
+| Place Mug | ACT 20k | episode_004 |
+| Pouring | Diffusion Policy 8k | episode_000 |
+
+Real World uses episode 0 of the corresponding `data_real_eval_<task>_<policy>_<checkpoint>`
+recording for each task's checkpoint above.
 
 ## Baselines
 
@@ -24,11 +27,14 @@ Live site: https://tongmiaoxu.github.io/sim2real-rollout-videos/
 - **Turbo** — a *raw* MuJoCo render (no GS background) translated with a per-task/camera
   pix2pix-turbo diffusion model (`--turbo_mujoco`); GS is skipped for this baseline because
   the turbo checkpoints were trained to translate directly from the raw render.
+- **Real World** — the real xArm robot running the same checkpoint, from `data_real/`
+  (LeRobot v3 dataset, episode 0, trimmed by frame index from the per-camera combined mp4).
 
-All videos show every simulation step. The pix2pix / turbo baselines re-run their
+The 4 sim baselines show every simulation step; the pix2pix / turbo columns re-run their
 translator on every frame of the underlying composite/raw video, rather than reusing the
 model output cached once per policy-prediction chunk (as the sim-eval recording pipeline
-does live).
+does live). The Real World column is an unmodified real-robot recording, so its length and
+gripper-camera framing differ naturally from the sim columns.
 
 Related: [Sim2Real Baseline Gallery](https://tongmiaoxu.github.io/sim2real-baseline-gallery/)
 (per-frame image comparison across many more baseline variants).
