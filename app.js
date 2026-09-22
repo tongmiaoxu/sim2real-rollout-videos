@@ -116,7 +116,8 @@
       "<b>" + task.label + "</b> &mdash; " + task.checkpoint +
       " checkpoint, " + task.episode + ". Sim baselines show the full per-step rollout " +
       "(sim2real translation re-applied to every simulation frame, not just once per " +
-      "policy-prediction chunk); Real World is the actual robot eval with the same checkpoint.";
+      "policy-prediction chunk); Real World is the actual robot eval, same checkpoint and " +
+      "same seeded episode as the sim columns.";
 
     gridEl.innerHTML = "";
     gridEl.style.gridTemplateColumns = "120px repeat(" + BASELINES.length + ", minmax(220px, 1fr))";

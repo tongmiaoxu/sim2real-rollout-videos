@@ -14,8 +14,10 @@ Live site: https://tongmiaoxu.github.io/sim2real-rollout-videos/
 | Place Mug | ACT 20k | episode_004 |
 | Pouring | Diffusion Policy 8k | episode_000 |
 
-Real World uses episode 0 of the corresponding `data_real_eval_<task>_<policy>_<checkpoint>`
-recording for each task's checkpoint above.
+Real World uses the *same episode index* as the sim episode above, from the corresponding
+`data_real_eval_<task>_<policy>_<checkpoint>` recording — sim episode N and real episode N
+are the same seeded trial/object placement (see `initial_states_overlay.py`), so each column
+is directly comparable frame-for-frame in setup, not just in checkpoint.
 
 ## Baselines
 
@@ -27,8 +29,9 @@ recording for each task's checkpoint above.
 - **Turbo** — a *raw* MuJoCo render (no GS background) translated with a per-task/camera
   pix2pix-turbo diffusion model (`--turbo_mujoco`); GS is skipped for this baseline because
   the turbo checkpoints were trained to translate directly from the raw render.
-- **Real World** — the real xArm robot running the same checkpoint, from `data_real/`
-  (LeRobot v3 dataset, episode 0, trimmed by frame index from the per-camera combined mp4).
+- **Real World** — the real xArm robot running the same checkpoint on the same seeded
+  episode, from `data_real/` (LeRobot v3 dataset, trimmed by frame index from the
+  per-camera combined mp4).
 
 The 4 sim baselines show every simulation step; the pix2pix / turbo columns re-run their
 translator on every frame of the underlying composite/raw video, rather than reusing the
