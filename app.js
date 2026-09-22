@@ -102,6 +102,9 @@
     });
     video.addEventListener("pause", function () {
       if (consumeIgnore(video, "pause")) return;
+      // A shorter clip reaching its own end shouldn't drag the other (still-playing,
+      // longer) videos in the row to a stop — let it freeze on its last frame instead.
+      if (video.ended) return;
       syncFrom(video, "pause");
     });
     video.addEventListener("seeking", function () {
@@ -145,7 +148,7 @@
         var video = document.createElement("video");
         video.src = videoPath(task.key, baseline.key, camera.key);
         video.muted = true;
-        video.loop = true;
+        video.loop = false;
         video.autoplay = true;
         video.playsInline = true;
         video.controls = true;

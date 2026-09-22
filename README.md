@@ -41,5 +41,10 @@ model output cached once per policy-prediction chunk (as the sim-eval recording 
 does live). The Real World column is an unmodified real-robot recording, so its length and
 gripper-camera framing differ naturally from the sim columns.
 
+Real World playback speed is adjusted for visual pacing against the sim columns: Book
+Shelving is slowed to 0.83x (1.2x slower); Pick Shoe, Place Mug, and Pouring are sped up to
+1.2x. Videos in a row are not looped — whichever column finishes first simply freezes on its
+last frame until the others (or a manual restart) catch up.
+
 Related: [Sim2Real Baseline Gallery](https://tongmiaoxu.github.io/sim2real-baseline-gallery/)
 (per-frame image comparison across many more baseline variants).
