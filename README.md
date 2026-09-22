@@ -17,7 +17,9 @@ Live site: https://tongmiaoxu.github.io/sim2real-rollout-videos/
 Real World uses the *same episode index* as the sim episode above, from the corresponding
 `data_real_eval_<task>_<policy>_<checkpoint>` recording — sim episode N and real episode N
 are the same seeded trial/object placement (see `initial_states_overlay.py`), so each column
-is directly comparable frame-for-frame in setup, not just in checkpoint.
+is directly comparable frame-for-frame in setup, not just in checkpoint. Exception: **Pick
+Shoe**'s real-world clip uses `data_real_eval_pick_shoe_act_010000` episode 4 (ACT 10k)
+instead of the pi0.5 1k recording, since that gives a clearer real rollout for this task.
 
 ## Baselines
 
