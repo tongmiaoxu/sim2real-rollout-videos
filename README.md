@@ -24,9 +24,10 @@ instead of the pi0.5 1k recording, since that gives a clearer real rollout for t
 ## Baselines
 
 - **Raw Sim** — a genuine from-scratch policy rollout with Gaussian-Splatting compositing
-  disabled (`--scene-path` pointed at a nonexistent file) and no sim2real translation of any
-  kind — the policy's own visual input is the plain raw MuJoCo render. This is a fresh sim
-  eval run, not a byproduct of another baseline's pipeline.
+  disabled (`--scene-path` pointed at a nonexistent file, or `--no-composite` for the pi0.5
+  remote-server path) and no sim2real translation of any kind — the policy's own visual input
+  is the plain raw MuJoCo render. This is a fresh sim eval run for every task, not a
+  byproduct of another baseline's pipeline.
 - **Kaifeng** — the GS composite with classical color calibration (`--color-calibrate`).
 - **Pix2Pix** — the GS composite translated with a per-task/camera pix2pix GAN.
 - **Turbo** — a *different* raw MuJoCo render (no GS background), from the `--turbo_mujoco`
@@ -44,11 +45,6 @@ translator on every frame of the underlying composite/raw video, rather than reu
 model output cached once per policy-prediction chunk (as the sim-eval recording pipeline
 does live). The Real World column is an unmodified real-robot recording, so its length and
 gripper-camera framing differ naturally from the sim columns.
-
-Status: Book Shelving, Place Mug, and Pouring's Raw Sim columns are all the fresh
-from-scratch/skip-GS rollout described above. Pick Shoe's Raw Sim is still temporarily
-backed by the `--turbo_mujoco` pre-translation frames (same caveat as Turbo, above) pending
-the same from-scratch re-run (needs a pi0.5 remote policy server).
 
 Real World playback speed is adjusted for visual pacing against the sim columns: Book
 Shelving is slowed to 0.83x (1.2x slower); Pick Shoe, Place Mug, and Pouring are sped up to
