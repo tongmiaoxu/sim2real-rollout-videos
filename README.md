@@ -45,10 +45,10 @@ model output cached once per policy-prediction chunk (as the sim-eval recording 
 does live). The Real World column is an unmodified real-robot recording, so its length and
 gripper-camera framing differ naturally from the sim columns.
 
-Status: Book Shelving's Raw Sim is the fresh from-scratch/skip-GS rollout described above.
-Pick Shoe, Place Mug, and Pouring's Raw Sim columns are still temporarily backed by the
-`--turbo_mujoco` pre-translation frames (same caveat as Turbo, above) pending the same
-from-scratch re-run for those three tasks.
+Status: Book Shelving, Place Mug, and Pouring's Raw Sim columns are all the fresh
+from-scratch/skip-GS rollout described above. Pick Shoe's Raw Sim is still temporarily
+backed by the `--turbo_mujoco` pre-translation frames (same caveat as Turbo, above) pending
+the same from-scratch re-run (needs a pi0.5 remote policy server).
 
 Real World playback speed is adjusted for visual pacing against the sim columns: Book
 Shelving is slowed to 0.83x (1.2x slower); Pick Shoe, Place Mug, and Pouring are sped up to
