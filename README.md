@@ -23,14 +23,15 @@ instead of the pi0.5 1k recording, since that gives a clearer real rollout for t
 
 ## Baselines
 
-- **Raw Sim** — default Gaussian-Splatting composite (GS background + MuJoCo robot
-  foreground), no sim2real translation applied. This is what the policy would see if you
-  ran sim eval with no `--color-calibrate`/`--pix2pix`/`--turbo` flag at all.
-- **Kaifeng** — the same GS composite with classical color calibration (`--color-calibrate`).
-- **Pix2Pix** — the same GS composite translated with a per-task/camera pix2pix GAN.
-- **Turbo** — a *raw* MuJoCo render (no GS background) translated with a per-task/camera
-  pix2pix-turbo diffusion model (`--turbo_mujoco`); GS is skipped for this baseline because
-  the turbo checkpoints were trained to translate directly from the raw render.
+- **Raw Sim** — raw MuJoCo render with Gaussian-Splatting compositing skipped entirely
+  (`--skip-gs`/`--turbo_mujoco` render source), no sim2real translation applied. This is the
+  same underlying raw render used as Turbo's pre-translation input below.
+- **Kaifeng** — the GS composite with classical color calibration (`--color-calibrate`).
+- **Pix2Pix** — the GS composite translated with a per-task/camera pix2pix GAN.
+- **Turbo** — the same raw MuJoCo render as Raw Sim (no GS background) translated with a
+  per-task/camera pix2pix-turbo diffusion model (`--turbo_mujoco`); GS is skipped for this
+  baseline because the turbo checkpoints were trained to translate directly from the raw
+  render.
 - **Real World** — the real xArm robot running the same checkpoint on the same seeded
   episode, from `data_real/` (LeRobot v3 dataset, trimmed by frame index from the
   per-camera combined mp4).
@@ -40,6 +41,10 @@ translator on every frame of the underlying composite/raw video, rather than reu
 model output cached once per policy-prediction chunk (as the sim-eval recording pipeline
 does live). The Real World column is an unmodified real-robot recording, so its length and
 gripper-camera framing differ naturally from the sim columns.
+
+Note: Raw Sim and Turbo share the same source recording (the `--turbo_mujoco` eval run's
+pre-translation frames), so the robot's motion in both was driven by the policy acting on
+turbo-translated observations during that eval, not a from-scratch zero-translation rollout.
 
 Real World playback speed is adjusted for visual pacing against the sim columns: Book
 Shelving is slowed to 0.83x (1.2x slower); Pick Shoe, Place Mug, and Pouring are sped up to

@@ -9,7 +9,7 @@
   ];
 
   var BASELINES = [
-    { key: "raw_sim", label: "Raw Sim", sub: "GS composite, no translation" },
+    { key: "raw_sim", label: "Raw Sim", sub: "skip-GS MuJoCo render" },
     { key: "kaifeng", label: "Kaifeng", sub: "color calibration" },
     { key: "pix2pix", label: "Pix2Pix", sub: "GAN translation" },
     { key: "turbo", label: "Turbo", sub: "pix2pix-turbo" },
