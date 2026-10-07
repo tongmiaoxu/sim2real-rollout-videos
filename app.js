@@ -16,17 +16,52 @@
     { key: "real_world", label: "Real World", sub: "real robot eval" },
   ];
 
+  var PIX2PIX_VARIANTS = [
+    { key: "pix2pix", label: "Pix2Pix", sub: "per-task UNet, pixel + GAN" },
+    { key: "pix2pix_dino", label: "Pix2Pix-DINO", sub: "shared UNet, pixel + GAN + DINOv3" },
+    { key: "pix2pix_dino_wo_pixel", label: "Pix2Pix-DINO w/o Pixel", sub: "shared UNet, GAN + DINOv3" },
+    { key: "pix2pix_gan_only", label: "Pix2Pix GAN-Only", sub: "shared UNet, GAN only" },
+    { key: "real_world", label: "Real World", sub: "real robot eval" },
+  ];
+
+  var VIEWS = [
+    { key: "baselines", label: "Baselines", columns: BASELINES },
+    { key: "pix2pix", label: "Pix2Pix variants", columns: PIX2PIX_VARIANTS },
+  ];
+
   var CAMERAS = [
     { key: "stationary", label: "Stationary cam" },
     { key: "wrist", label: "Wrist cam" },
   ];
 
+  var viewTabsEl = document.getElementById("view-tabs");
   var taskTabsEl = document.getElementById("task-tabs");
   var taskSubEl = document.getElementById("task-sub");
   var gridEl = document.getElementById("video-grid");
   var restartBtn = document.getElementById("restart-btn");
 
   var currentTaskKey = TASKS[0].key;
+  var currentViewKey = VIEWS[0].key;
+
+  function currentColumns() {
+    return VIEWS.filter(function (v) { return v.key === currentViewKey; })[0].columns;
+  }
+
+  function buildViewTabs() {
+    viewTabsEl.innerHTML = "";
+    VIEWS.forEach(function (view) {
+      var btn = document.createElement("button");
+      btn.textContent = view.label;
+      btn.className = view.key === currentViewKey ? "active" : "";
+      btn.addEventListener("click", function () {
+        if (view.key === currentViewKey) return;
+        currentViewKey = view.key;
+        buildViewTabs();
+        buildGrid();
+      });
+      viewTabsEl.appendChild(btn);
+    });
+  }
 
   function videoPath(taskKey, baselineKey, cameraKey) {
     return "videos/" + taskKey + "/" + baselineKey + "/" + cameraKey + ".mp4";
@@ -123,13 +158,14 @@
       "same seeded episode as the sim columns.";
 
     gridEl.innerHTML = "";
-    gridEl.style.gridTemplateColumns = "120px repeat(" + BASELINES.length + ", minmax(220px, 1fr))";
+    var columns = currentColumns();
+    gridEl.style.gridTemplateColumns = "120px repeat(" + columns.length + ", minmax(220px, 1fr))";
 
     var corner = document.createElement("div");
     corner.className = "grid-corner";
     gridEl.appendChild(corner);
 
-    BASELINES.forEach(function (baseline) {
+    columns.forEach(function (baseline) {
       var head = document.createElement("div");
       head.className = "col-head";
       head.innerHTML = baseline.label + '<span class="col-sub">' + baseline.sub + "</span>";
@@ -142,7 +178,7 @@
       rowHead.textContent = camera.label;
       gridEl.appendChild(rowHead);
 
-      BASELINES.forEach(function (baseline) {
+      columns.forEach(function (baseline) {
         var cell = document.createElement("div");
         cell.className = "cell";
         var video = document.createElement("video");
@@ -183,6 +219,7 @@
 
   restartBtn.addEventListener("click", restartAll);
 
+  buildViewTabs();
   buildTabs();
   buildGrid();
 })();

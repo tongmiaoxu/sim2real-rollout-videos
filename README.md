@@ -51,5 +51,20 @@ Shelving is slowed to 0.83x (1.2x slower); Pick Shoe, Place Mug, and Pouring are
 1.2x. Videos in a row are not looped — whichever column finishes first simply freezes on its
 last frame until the others (or a manual restart) catch up.
 
+## Pix2Pix variants tab
+
+Compares the per-task **Pix2Pix** rollout above with three shared (all-tasks, all-cameras)
+Pix2Pix UNets, each driven closed-loop on the same task, checkpoint, and initial state:
+
+- **Pix2Pix-DINO**: pixel + GAN + DINOv3 consistency loss
+- **Pix2Pix-DINO w/o Pixel**: GAN + DINOv3, no pixel loss
+- **Pix2Pix GAN-Only**: GAN loss only
+
+Each is a single-episode rollout (`--only-initial-state`, same initial state as the sim episode
+above; Book Shelving's episode_008 is initial state 99) on the GS composite, re-translated
+per frame with that variant's generator. ACT tasks (Book Shelving, Place Mug) are deterministic,
+so differences come from the translator alone; Diffusion Policy (Pouring) and pi0.5 (Pick Shoe)
+sample unseeded noise, so their rollouts are not exactly reproducible.
+
 Related: [Sim2Real Baseline Gallery](https://tongmiaoxu.github.io/sim2real-baseline-gallery/)
 (per-frame image comparison across many more baseline variants).
