@@ -66,5 +66,15 @@ per frame with that variant's generator. ACT tasks (Book Shelving, Place Mug) ar
 so differences come from the translator alone; Diffusion Policy (Pouring) and pi0.5 (Pick Shoe)
 sample unseeded noise, so their rollouts are not exactly reproducible.
 
+## Pix2Pix variants tab
+
+The **Pix2Pix variants** view compares the per-task Pix2Pix above with three shared all-tasks
+Pix2Pix UNets: Pix2Pix-DINO (pixel + GAN + DINOv3), Pix2Pix-DINO w/o Pixel (GAN + DINOv3) and
+Pix2Pix GAN-Only (GAN only), plus the same Real World clip. Each variant is its own closed-loop
+rollout on the same initial state as the episode above (`--only-initial-state`), with the
+translator re-applied to every frame by `scripts/retranslate_pix2pix_video.py` in lerobot_pi05.
+Diffusion Policy (Pouring) and pi0.5 (Pick Shoe) sample noise without a fixed seed, so their
+trajectories also vary between runs of the same translator; ACT tasks are deterministic.
+
 Related: [Sim2Real Baseline Gallery](https://tongmiaoxu.github.io/sim2real-baseline-gallery/)
 (per-frame image comparison across many more baseline variants).
