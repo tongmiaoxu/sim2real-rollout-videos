@@ -53,8 +53,9 @@ last frame until the others (or a manual restart) catch up.
 
 ## Pix2Pix variants tab
 
-The **Pix2Pix variants** view compares the per-task Pix2Pix with three shared all-tasks Pix2Pix
-UNets: Pix2Pix-DINO (pixel + GAN + DINOv3), Pix2Pix-DINO w/o Pixel (GAN + DINOv3) and Pix2Pix
+The **Pix2Pix variants** view compares the per-task Pix2Pix (a separate UNet per task and
+camera) with four shared all-tasks, all-cameras Pix2Pix UNets: Pix2Pix (shared) (pixel + GAN, the
+same losses as per-task Pix2Pix), Pix2Pix-DINO (pixel + GAN + DINOv3), Pix2Pix-DINO w/o Pixel (GAN + DINOv3) and Pix2Pix
 GAN-Only (GAN only), plus the matching Real World clip, using the per-task checkpoints/episodes
 in the table above. The translator is re-applied to every frame by
 `scripts/retranslate_pix2pix_video.py` in lerobot_pi05.
