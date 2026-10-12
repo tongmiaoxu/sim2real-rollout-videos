@@ -18,9 +18,9 @@
 
   var BASELINES = [
     { key: "raw_sim", label: "Raw Sim", sub: "skip-GS MuJoCo render" },
-    { key: "kaifeng", label: "Kaifeng", sub: "color calibration" },
+    { key: "kaifeng", label: "Classical", sub: "color alignment" },
     { key: "pix2pix", label: "Pix2Pix", sub: "GAN translation" },
-    { key: "turbo", label: "Turbo", sub: "pix2pix-turbo" },
+    { key: "turbo", label: "STRIPE", sub: "" },
     { key: "real_world", label: "Real World", sub: "real robot eval" },
   ];
 

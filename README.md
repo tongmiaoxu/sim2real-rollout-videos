@@ -28,9 +28,9 @@ instead of the pi0.5 1k recording, since that gives a clearer real rollout for t
   remote-server path) and no sim2real translation of any kind — the policy's own visual input
   is the plain raw MuJoCo render. This is a fresh sim eval run for every task, not a
   byproduct of another baseline's pipeline.
-- **Kaifeng** — the GS composite with classical color calibration (`--color-calibrate`).
+- **Classical color alignment** — the GS composite with classical color alignment (`--color-calibrate`).
 - **Pix2Pix** — the GS composite translated with a per-task/camera pix2pix GAN.
-- **Turbo** — a *different* raw MuJoCo render (no GS background), from the `--turbo_mujoco`
+- **STRIPE** — a *different* raw MuJoCo render (no GS background), from the `--turbo_mujoco`
   eval run, translated with a per-task/camera pix2pix-turbo diffusion model; GS is skipped
   for this baseline because the turbo checkpoints were trained to translate directly from the
   raw render. Unlike Raw Sim, this rollout's actions were driven by the policy acting on
