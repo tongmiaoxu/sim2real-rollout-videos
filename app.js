@@ -8,6 +8,14 @@
     { key: "pouring", label: "Pouring", episode: "episode_000", checkpoint: "Diffusion 8k" },
   ];
 
+  // The Pix2Pix variants view uses its own checkpoint/episode per task (videos/pix2pix_tab/).
+  var PIX2PIX_TASKS = [
+    { key: "book_shelving", label: "Book Shelving", episode: "episode_000", checkpoint: "GR00T 10k" },
+    { key: "pick_shoe", label: "Pick Shoe", episode: "episode_003", checkpoint: "Diffusion 4k" },
+    { key: "place_mug", label: "Place Mug", episode: "episode_000", checkpoint: "ACT 20k" },
+    { key: "pouring", label: "Pouring", episode: "episode_002", checkpoint: "ACT 20k" },
+  ];
+
   var BASELINES = [
     { key: "raw_sim", label: "Raw Sim", sub: "skip-GS MuJoCo render" },
     { key: "kaifeng", label: "Kaifeng", sub: "color calibration" },
@@ -25,8 +33,8 @@
   ];
 
   var VIEWS = [
-    { key: "baselines", label: "Baselines", columns: BASELINES },
-    { key: "pix2pix", label: "Pix2Pix variants", columns: PIX2PIX_VARIANTS },
+    { key: "baselines", label: "Baselines", columns: BASELINES, tasks: TASKS, root: "videos/" },
+    { key: "pix2pix", label: "Pix2Pix variants", columns: PIX2PIX_VARIANTS, tasks: PIX2PIX_TASKS, root: "videos/pix2pix_tab/" },
   ];
 
   var CAMERAS = [
@@ -43,8 +51,12 @@
   var currentTaskKey = TASKS[0].key;
   var currentViewKey = VIEWS[0].key;
 
+  function currentView() {
+    return VIEWS.filter(function (v) { return v.key === currentViewKey; })[0];
+  }
+
   function currentColumns() {
-    return VIEWS.filter(function (v) { return v.key === currentViewKey; })[0].columns;
+    return currentView().columns;
   }
 
   function buildViewTabs() {
@@ -57,6 +69,7 @@
         if (view.key === currentViewKey) return;
         currentViewKey = view.key;
         buildViewTabs();
+        buildTabs();
         buildGrid();
       });
       viewTabsEl.appendChild(btn);
@@ -64,7 +77,7 @@
   }
 
   function videoPath(taskKey, baselineKey, cameraKey) {
-    return "videos/" + taskKey + "/" + baselineKey + "/" + cameraKey + ".mp4";
+    return currentView().root + taskKey + "/" + baselineKey + "/" + cameraKey + ".mp4";
   }
 
   // Per-video "ignore the next event of this kind" flags, set right before we
@@ -85,7 +98,7 @@
 
   function buildTabs() {
     taskTabsEl.innerHTML = "";
-    TASKS.forEach(function (task) {
+    currentView().tasks.forEach(function (task) {
       var btn = document.createElement("button");
       btn.textContent = task.label;
       btn.className = task.key === currentTaskKey ? "active" : "";
@@ -149,7 +162,7 @@
   }
 
   function buildGrid() {
-    var task = TASKS.filter(function (t) { return t.key === currentTaskKey; })[0];
+    var task = currentView().tasks.filter(function (t) { return t.key === currentTaskKey; })[0];
     taskSubEl.innerHTML =
       "<b>" + task.label + "</b> &mdash; " + task.checkpoint +
       " checkpoint, " + task.episode + ". Sim baselines show the full per-step rollout " +
