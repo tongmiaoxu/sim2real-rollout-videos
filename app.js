@@ -25,7 +25,7 @@
   ];
 
   var PIX2PIX_VARIANTS = [
-    { key: "pix2pix_shared", label: "Pix2Pix (shared)", sub: "shared UNet, pixel + GAN" },
+    { key: "pix2pix_shared", label: "Pix2Pix", sub: "shared UNet, pixel + GAN" },
     { key: "pix2pix_dino", label: "Pix2Pix-DINO", sub: "shared UNet, pixel + GAN + DINOv3" },
     { key: "pix2pix_dino_wo_pixel", label: "Pix2Pix-DINO w/o Pixel", sub: "shared UNet, GAN + DINOv3" },
     { key: "pix2pix_gan_only", label: "Pix2Pix GAN-Only", sub: "shared UNet, GAN only" },
