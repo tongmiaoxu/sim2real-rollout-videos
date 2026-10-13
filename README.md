@@ -29,7 +29,8 @@ instead of the pi0.5 1k recording, since that gives a clearer real rollout for t
   is the plain raw MuJoCo render. This is a fresh sim eval run for every task, not a
   byproduct of another baseline's pipeline.
 - **Classical color alignment** — the GS composite with classical color alignment (`--color-calibrate`).
-- **Pix2Pix** — the GS composite translated with a per-task/camera pix2pix GAN.
+- **Pix2Pix** — the GS composite translated with the shared all-tasks, all-cameras pix2pix
+  GAN (pixel + GAN), run closed-loop on the same checkpoint and episode as the other columns.
 - **STRIPE** — a *different* raw MuJoCo render (no GS background), from the `--turbo_mujoco`
   eval run, translated with a per-task/camera pix2pix-turbo diffusion model; GS is skipped
   for this baseline because the turbo checkpoints were trained to translate directly from the
@@ -53,8 +54,7 @@ last frame until the others (or a manual restart) catch up.
 
 ## Pix2Pix variants tab
 
-The **Pix2Pix variants** view compares the per-task Pix2Pix (a separate UNet per task and
-camera) with four shared all-tasks, all-cameras Pix2Pix UNets: Pix2Pix (shared) (pixel + GAN, the
+The **Pix2Pix variants** view compares four shared all-tasks, all-cameras Pix2Pix UNets: Pix2Pix (shared) (pixel + GAN, the
 same losses as per-task Pix2Pix), Pix2Pix-DINO (pixel + GAN + DINOv3), Pix2Pix-DINO w/o Pixel (GAN + DINOv3) and Pix2Pix
 GAN-Only (GAN only), plus the matching Real World clip, using the per-task checkpoints/episodes
 in the table above. The translator is re-applied to every frame by
